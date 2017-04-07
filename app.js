@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'));
 
-mongoose.connect("mongodb://localhost:28001/Energy_Hackathon", function (err) {
+mongoose.connect("mongodb://localhost/Energy_Hackathon", function (err) {
     if(err){
         res.send(503,{
             success : false,
@@ -237,10 +237,10 @@ app.post('/day', (req, res)=>{
 })
 
 app.post('/login', (req, res)=>{
+    var password = crypto.createHash('sha256').update(req.param('password')).digest('base64');
     User.findOne({
         id : req.param('id'),
-        password : req.param('password')
-    }, (err)=>{
+    }, (err, result)=>{
         if(err){
             res.send(500,{
                 success : false,
@@ -248,10 +248,18 @@ app.post('/login', (req, res)=>{
             })
         }
         else if(result){
-            res.send(200,{
-                success : true,
-                message : "Login Success"
-            })
+            if(result.password == password){
+                res.send(200,{
+                    success : true,
+                    message : "Login Success"
+                })
+            }
+            else{
+                res.send(206,{
+                    success : false,
+                    message : "Password Error!"
+                })
+            }
         }
         else {
             res.send(404,{
