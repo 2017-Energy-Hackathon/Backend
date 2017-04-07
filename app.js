@@ -74,8 +74,12 @@ app.listen(5000, function (err) {
         throw err
     }
     else {
-        console.log('Server Running At 3000 Port!')
+        console.log('Server Running At 5000 Port!')
     }
+})
+
+app.get('/', (req, res)=>{
+    res.redirect('/register')
 })
 
 app.get('/register', (req, res)=>{
