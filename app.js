@@ -235,3 +235,29 @@ app.post('/day', (req, res)=>{
         }
     })
 })
+
+app.post('/login', (req, res)=>{
+    User.findOne({
+        id : req.param('id'),
+        password : req.param('password')
+    }, (err)=>{
+        if(err){
+            res.send(500,{
+                success : false,
+                message : "Server Error!"
+            })
+        }
+        else if(result){
+            res.send(200,{
+                success : true,
+                message : "Login Success"
+            })
+        }
+        else {
+            res.send(404,{
+                success : false,
+                message : "Data Not Founded"
+            })
+        }
+    })
+})
