@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'));
 
-mongoose.connect("mongodb://localhost:28001/Energy_Hackathon", function (err) {
+mongoose.connect("mongodb://localhost/Energy_Hackathon", function (err) {
     if(err){
         res.send(503,{
             success : false,
